@@ -25,5 +25,28 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    public Product updateProduct(Long id,Product updatedProduct){
+        Product existingProduct= productRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Product not found with given id"));
+
+        existingProduct.setName(updatedProduct.getName());
+        existingProduct.setPrice(updatedProduct.getPrice());
+        existingProduct.setDescription(updatedProduct.getDescription());
+
+        return productRepository.save(existingProduct);
+
+    }
+
+    public void deleteProduct(Long id) {
+
+        if (!productRepository.existsById(id)) {
+            throw new RuntimeException("Product not found with id: " + id);
+        }
+        productRepository.deleteById(id);
+    }
+
+
+
+
 
 }
